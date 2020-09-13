@@ -13,7 +13,7 @@ pipeline {
             causeString: 'Triggered on $branch',
             token: 'kucby7dvrbjyh7yna25mchaqzzkj98zh3em0jkre',
 
-            printContributedVariables: true,
+            printContributedVariables: false,
             printPostContent: false,
 
             silentResponse: false,
@@ -43,7 +43,7 @@ pipeline {
                             body: BUILD_LOG
                     ]
 
-                    COMMENT_DATA = JsonOutput.toJson(data).replaceAll('"', '\\"')
+                    COMMENT_DATA = JsonOutput.toJson(data).replaceAll('"', "\\\"")
                 }
             }
         }
