@@ -30,10 +30,8 @@ pipeline {
         }
         stage('Gradle build') {
             steps {
-                BUILD_LOG = sh (
-                        script: 'gradlew clean build -Pprofile=test',
-                        returnStdout: true
-                )
+                def BUILD_LOG = sh "./gradlew clean build -Pprofile=dev"
+                echo "NUMBER : ${currentBuild.number}"
             }
         }
     }
