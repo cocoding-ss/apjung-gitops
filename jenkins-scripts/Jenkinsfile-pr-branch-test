@@ -49,25 +49,27 @@ pipeline {
             withCredentials([string(credentialsId: 'github-api-token', variable: 'TOKEN')]) {
                 script {
                     def BUILD_LOG = readFile('stdout').trim()
-                    sh "echo $BUILD_LOG"
+                    sh (
+                            script: "echo $BUILD_LOG"
+                    )
 
-                    def data = [
-                            event: "COMMENT",
-                            body: BUILD_LOG
-                    ]
-                    def COMMENT_DATA = JsonOutput.toJson(data)
-
-
-                    def header = [
-                            [name: "Authorization", value: "token $TOKEN"],
-                            [name: "Accept", value: "application/vnd.github.v3+json"]
-                    ]
-
-                    httpRequest url: "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO/reviews",
-                            httpMode: 'POST',
-                            requestBody: COMMENT_DATA,
-                            customHeaders: header,
-                            contentType: 'APPLICATION_JSON_UTF8'
+//                    def data = [
+//                            event: "COMMENT",
+//                            body: BUILD_LOG
+//                    ]
+//                    def COMMENT_DATA = JsonOutput.toJson(data)
+//
+//
+//                    def header = [
+//                            [name: "Authorization", value: "token $TOKEN"],
+//                            [name: "Accept", value: "application/vnd.github.v3+json"]
+//                    ]
+//
+//                    httpRequest url: "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO/reviews",
+//                            httpMode: 'POST',
+//                            requestBody: COMMENT_DATA,
+//                            customHeaders: header,
+//                            contentType: 'APPLICATION_JSON_UTF8'
                 }
             }
         }
