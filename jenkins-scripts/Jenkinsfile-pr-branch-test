@@ -55,7 +55,7 @@ pipeline {
                         "\"Accept: application/vnd.github.v3+json\" " +
                         "-H \"Authorization: token $TOKEN\" " +
                         "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO/reviews " +
-                        "-d '$COMMENT_DATA'"
+                        "-d $COMMENT_DATA"
             }
         }
         failure {
@@ -64,7 +64,7 @@ pipeline {
                         "\"Accept: application/vnd.github.v3+json\" " +
                         "-H \"Authorization: token $TOKEN\" " +
                         "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO/reviews " +
-                        "-d '$COMMENT_DATA'"
+                        "-d $COMMENT_DATA"
             }
         }
     }
