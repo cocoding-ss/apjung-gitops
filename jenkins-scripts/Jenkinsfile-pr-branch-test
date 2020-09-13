@@ -45,7 +45,7 @@ pipeline {
 
                     def myJsonData = JsonOutput.toJson(data)
 
-                    COMMENT_DATA = myJsonData.replaceAll('"', "\\\\\"")
+                    COMMENT_DATA = myJsonData
                 }
             }
         }
