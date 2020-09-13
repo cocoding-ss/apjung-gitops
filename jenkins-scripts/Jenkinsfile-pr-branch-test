@@ -1,3 +1,5 @@
+import groovy.json.JsonOutput
+
 pipeline {
     agent any
     triggers {
@@ -36,13 +38,12 @@ pipeline {
                             returnStdout: true
                     ).trim()
 
-                    def builder = new groovy.json.JsonBuilder()
-                    def root = json {
-                        event 'COMMENT'
-                        body BUILD_LOG
-                    }
+                    def data = [
+                            event: "COMMENT",
+                            body: BUILD_LOG
+                    ]
 
-                    COMMENT_DATA = json.toString()
+                    COMMENT_DATA = JsonOutput.toJson(data)
                 }
             }
         }
