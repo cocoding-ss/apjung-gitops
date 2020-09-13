@@ -29,10 +29,14 @@ pipeline {
             }
         }
         stage('Gradle build') {
-            BUILD_LOG = sh (
-                    script: "./gradlew clean build -Pprofile=dev",
-                    returnStdout: true
-            )
+            steps {
+                script {
+                    def BUILD_LOG = sh (
+                            script: "./gradlew clean build -Pprofile=dev",
+                            returnStdout: true
+                    ).trim()
+                }
+            }
         }
     }
     post {
