@@ -35,7 +35,7 @@ pipeline {
             steps {
                 script {
                     def BUILD_LOG = sh (
-                            script: "./gradlew clean build -Pprofile=dev",
+                            script: "./gradlew clean build -Pprofile=dev 2>&1",
                             returnStdout: true
                     ).trim()
 
@@ -88,7 +88,7 @@ pipeline {
                     def state = [
                             state: 'closed'
                     ]
-                    httpRequest url: "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/PULL_REQUEST_NO",
+                    httpRequest url: "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO",
                                 httpMode: 'PATCH',
                                 requestBody: JsonOutput.toJson(state),
                                 customHeaders: header,
