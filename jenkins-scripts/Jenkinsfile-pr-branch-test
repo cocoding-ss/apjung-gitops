@@ -46,6 +46,9 @@ pipeline {
                     ).trim()
 
                     def BUILD_LOG = readFile(file: 'stdout.out')
+
+                    sh "echo $BUILD_LOG"
+
                     def data = [
                             event: "COMMENT",
                             body: BUILD_LOG.trim()
