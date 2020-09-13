@@ -51,7 +51,7 @@ pipeline {
                             event: "COMMENT",
                             body: BUILD_LOG.trim()
                     ]
-                    def COMMENT_DATA = myJsonData
+                    def COMMENT_DATA = JsonOutput.toJson(data)
 
                     sh "echo $BUILD_LOG"
 
