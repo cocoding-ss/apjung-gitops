@@ -34,12 +34,6 @@ pipeline {
         stage('Gradle build') {
             steps {
                 script {
-
-                    try {
-
-                    } catch (Exception ex) {
-
-                    }
                     sh (
                             script: "./gradlew clean build -Pprofile=dev &>./stdout.out",
                             returnStdout: false
