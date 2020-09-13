@@ -30,8 +30,10 @@ pipeline {
         }
         stage('Gradle build') {
             steps {
-                sh "./gradlew clean build -Pprofile=dev"
-                echo "NUMBER : ${currentBuild.number}"
+                BUILD_LOG = sh (
+                        script: 'gradlew clean build -Pprofile=test',
+                        returnStdout: true
+                )
             }
         }
     }
@@ -42,7 +44,7 @@ pipeline {
                         "\"Accept: application/vnd.github.v3+json\" " +
                         "-H \"Authorization: token $TOKEN\" " +
                         "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO/reviews " +
-                        "-d \'{\"body\" : \"Success\", \"event\" : \"COMMENT\"}\'"
+                        "-d \'{\"body\" : \"$BUILD_LOG\", \"event\" : \"COMMENT\"}\'"
             }
         }
         failure {
@@ -51,7 +53,7 @@ pipeline {
                         "\"Accept: application/vnd.github.v3+json\" " +
                         "-H \"Authorization: token $TOKEN\" " +
                         "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO/reviews " +
-                        "-d \'{\"body\" : \"Success\", \"event\" : \"COMMENT\"}\'"
+                        "-d \'{\"body\" : \"$BUILD_LOG\", \"event\" : \"COMMENT\"}\'"
             }
         }
     }
