@@ -52,7 +52,7 @@ pipeline {
         }
     }
     post {
-        success {
+        always {
             withCredentials([string(credentialsId: 'github-api-token', variable: 'TOKEN')]) {
                 script {
                     def header = [
@@ -61,11 +61,30 @@ pipeline {
                     ]
 
                     httpRequest url: "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO/reviews",
-                                httpMode: 'POST',
-                                requestBody: COMMENT_DATA,
-                                customHeaders: header,
-                                contentType: 'APPLICATION_JSON_UTF8'
-
+                            httpMode: 'POST',
+                            requestBody: COMMENT_DATA,
+                            customHeaders: header,
+                            contentType: 'APPLICATION_JSON_UTF8'
+                }
+            }
+        }
+        failure {
+            withCredentials([string(credentialsId: 'github-api-token', variable: 'TOKEN')]) {
+                script {
+                    def successLabel = [
+                            labels: ["build fail"]
+                    ]
+                    httpRequest url: "https://api.github.com/repos/cocoding-ss/apjung-backend/issues/$PULL_REQUEST_NO/labels",
+                            httpMode: 'POST',
+                            requestBody: JsonOutput.toJson(successLabel),
+                            customHeaders: header,
+                            contentType: 'APPLICATION_JSON_UTF8'
+                }
+            }
+        }
+        success {
+            withCredentials([string(credentialsId: 'github-api-token', variable: 'TOKEN')]) {
+                script {
                     def successLabel = [
                             labels: ["build success"]
                     ]
