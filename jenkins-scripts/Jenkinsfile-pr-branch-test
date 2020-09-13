@@ -35,9 +35,9 @@ pipeline {
             steps {
                 script {
                     sh (
-                            script: "./gradlew clean build -Pprofile=dev &>stdout.out",
+                            script: "./gradlew clean build -Pprofile=dev &>./stdout.out",
                             returnStdout: false
-                    ).trim()
+                    )
                 }
             }
         }
@@ -46,7 +46,7 @@ pipeline {
         always {
             withCredentials([string(credentialsId: 'github-api-token', variable: 'TOKEN')]) {
                 script {
-                    def BUILD_LOG = readFile(file: 'stdout.out').trim()
+                    def BUILD_LOG = readFile(file: './stdout.out').trim()
                     def data = [
                             event: "COMMENT",
                             body: BUILD_LOG.trim()
