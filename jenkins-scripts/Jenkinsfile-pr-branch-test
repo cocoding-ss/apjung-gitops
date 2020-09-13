@@ -84,6 +84,15 @@ pipeline {
                             requestBody: JsonOutput.toJson(successLabel),
                             customHeaders: header,
                             contentType: 'APPLICATION_JSON_UTF8'
+
+                    def state = [
+                            state: 'closed'
+                    ]
+                    httpRequest url: "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/PULL_REQUEST_NO",
+                                httpMode: 'PATCH',
+                                requestBody: JsonOutput.toJson(state),
+                                customHeaders: header,
+                                contentType: 'APPLICATION_JSON_UTF8'
                 }
             }
         }
