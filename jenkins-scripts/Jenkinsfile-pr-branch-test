@@ -56,9 +56,10 @@ pipeline {
             withCredentials([string(credentialsId: 'github-api-token', variable: 'TOKEN')]) {
                 script {
                     def header = [
-                            "Authorization" : "token $TOKEN",
-                            "Accept" : "application/vnd.github.v3+json"
+                            ["Authorization" : "token $TOKEN"],
+                            ["Accept" : "application/vnd.github.v3+json"]
                     ]
+
                     httpRequest url: "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO/reviews", httpMode: 'POST', requestBody: COMMENT_DATA, customHeaders: header, contentType: 'APPLICATION_JSON_UTF8'
 
 //                    httpRequest consoleLogResponseBody: true, contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: toJson(body), url: "https://${host}", validResponseCodes: '200'
