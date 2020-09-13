@@ -34,14 +34,21 @@ pipeline {
         stage('Gradle build') {
             steps {
                 script {
-                    def BUILD_LOG = sh (
-                            script: "./gradlew clean build -Pprofile=dev 2>&1",
+
+                    try {
+
+                    } catch (Exception ex) {
+
+                    }
+                    sh (
+                            script: "./gradlew clean build -Pprofile=dev &>stdout.out",
                             returnStdout: true
                     ).trim()
 
+                    def BUILD_LOG = readFile(file: 'stdout.out')
                     def data = [
                             event: "COMMENT",
-                            body: BUILD_LOG
+                            body: BUILD_LOG.trim()
                     ]
 
                     def myJsonData = JsonOutput.toJson(data)
