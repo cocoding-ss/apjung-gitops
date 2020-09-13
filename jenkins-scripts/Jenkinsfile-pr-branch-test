@@ -45,7 +45,7 @@ pipeline {
 
                     def myJsonData = JsonOutput.toJson(data)
 
-                    COMMENT_DATA = myJsonData
+                    COMMENT_DATA = myJsonData.replaceAll('"', "\\\\\"")
                 }
             }
         }
@@ -58,7 +58,7 @@ pipeline {
                         "-H \'Authorization: token $TOKEN\' " +
                         "-H \'Content-Type: application/json\' " +
                         "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO/reviews " +
-                        "-d \'{\"event\": \"COMMENT\", \"body\" : \"hihi\"}\'"
+                        "-d \'$COMMENT_DATA\'"
             }
         }
     }
