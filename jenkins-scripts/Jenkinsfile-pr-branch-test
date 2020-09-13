@@ -35,22 +35,9 @@ pipeline {
             steps {
                 script {
                     sh (
-                            script: "./gradlew clean build -Pprofile=dev &>./stdout.out",
+                            script: "./gradlew clean build -Pprofile=dev &>stdout.out",
                             returnStdout: false
                     ).trim()
-
-                    def BUILD_LOG = readFile(file: './stdout.out')
-
-                    sh "echo $BUILD_LOG"
-
-                    def data = [
-                            event: "COMMENT",
-                            body: BUILD_LOG.trim()
-                    ]
-
-                    def myJsonData = JsonOutput.toJson(data)
-
-                    COMMENT_DATA = myJsonData
                 }
             }
         }
@@ -59,6 +46,15 @@ pipeline {
         always {
             withCredentials([string(credentialsId: 'github-api-token', variable: 'TOKEN')]) {
                 script {
+                    def BUILD_LOG = readFile(file: 'stdout.out').trim()
+                    def data = [
+                            event: "COMMENT",
+                            body: BUILD_LOG.trim()
+                    ]
+                    def COMMENT_DATA = myJsonData
+
+                    sh "echo $BUILD_LOG"
+
                     def header = [
                             [name: "Authorization", value: "token $TOKEN"],
                             [name: "Accept", value: "application/vnd.github.v3+json"]
