@@ -17,7 +17,7 @@ pipeline {
             silentResponse: false,
 
             regexpFilterText: '$action',
-            regexpFilterExpression: 'opened|edited'
+            regexpFilterExpression: 'opened|reopened'
         )
     }
     stages {
