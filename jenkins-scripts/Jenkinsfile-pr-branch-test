@@ -42,7 +42,7 @@ pipeline {
                     }
                     sh (
                             script: "./gradlew clean build -Pprofile=dev &>./stdout.out",
-                            returnStdout: true
+                            returnStdout: false
                     ).trim()
 
                     def BUILD_LOG = readFile(file: './stdout.out')
