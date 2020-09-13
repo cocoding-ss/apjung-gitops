@@ -35,7 +35,10 @@ pipeline {
             steps {
                 script {
                     sh (
-                            script: "./gradlew clean build -Pprofile=dev &>./stdout.out",
+                            script: """#!/bin/bash
+./gradlew clean build -Pprofile=dev &>./stdout.out
+
+""",
                             returnStdout: false
                     )
                 }
