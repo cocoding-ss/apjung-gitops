@@ -31,10 +31,18 @@ pipeline {
         stage('Gradle build') {
             steps {
                 script {
-                    BUILD_LOG = sh (
+                    def BUILD_LOG = sh (
                             script: "./gradlew clean build -Pprofile=dev",
                             returnStdout: true
-                    ).trim().split('\n').join('\n')
+                    ).trim()
+
+                    def builder = new groovy.json.JsonBuilder()
+                    def root = json {
+                        event 'COMMENT'
+                        body BUILD_LOG
+                    }
+
+                    COMMENT_DATA = json.toString()
                 }
             }
         }
@@ -46,7 +54,7 @@ pipeline {
                         "\"Accept: application/vnd.github.v3+json\" " +
                         "-H \"Authorization: token $TOKEN\" " +
                         "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO/reviews " +
-                        "-d \'{\"body\" : \"" + BUILD_LOG + ", \"event\" : \"COMMENT\"}\'"
+                        "-d '$COMMENT_DATA'"
             }
         }
         failure {
@@ -55,7 +63,7 @@ pipeline {
                         "\"Accept: application/vnd.github.v3+json\" " +
                         "-H \"Authorization: token $TOKEN\" " +
                         "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO/reviews " +
-                        "-d \'{\"body\" : \"$BUILD_LOG\", \"event\" : \"COMMENT\"}\'"
+                        "-d '$COMMENT_DATA'"
             }
         }
     }
