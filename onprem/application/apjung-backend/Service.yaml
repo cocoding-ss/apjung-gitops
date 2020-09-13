@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wiro-account-svc
+  namespace: development
+spec:
+  ports:
+    - name: was
+      port: 80
+      targetPort: 8080
+  selector:
+    app: wiro-account-pod
+  type: NodePort

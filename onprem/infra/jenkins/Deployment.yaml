@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-deployment
+  namespace: jenkins
+  labels:
+    app: jenkins-deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins-pod
+
+  template:
+    metadata:
+      labels:
+        app: jenkins-pod
+    spec:
+      containers:
+        - name: jenkins-pod
+          image: jenkins/jenkins:jdk11
+          ports:
+            - containerPort: 8080
+            - containerPort: 50000
+          env:
+            - name: JENKINS_JAVA_OPTIONS
+              value: "-Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia/Seoul"
+
+          volumeMounts:
+            - mountPath: /var/jenkins_home
+              name: jenkins-volume
+      volumes:
+        - name: jenkins-volume
+          persistentVolumeClaim:
+            claimName: pvc-jenkins

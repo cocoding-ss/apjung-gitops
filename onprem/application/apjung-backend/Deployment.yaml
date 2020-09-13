@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wiro-account-deploy
+  namespace: development
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: wiro-account-pod
+  template:
+    metadata:
+      labels:
+        app: wiro-account-pod
+    spec:
+      containers:
+        - name: wiro-account
+          image: labyu/wiro-account:48
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: aws-credentials
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+              httpHeaders:
+                - name: X-Custom-Header
+                  value: HealthCheck
+            initialDelaySeconds: 15
+            timeoutSeconds: 2
+      imagePullSecrets:
+        - name: dockerhub-secrets
