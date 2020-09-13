@@ -43,7 +43,7 @@ pipeline {
                             body: BUILD_LOG
                     ]
 
-                    COMMENT_DATA = JsonOutput.toJson(data)
+                    COMMENT_DATA = JsonOutput.toJson(data).replaceAll('"', '\\"')
                 }
             }
         }
