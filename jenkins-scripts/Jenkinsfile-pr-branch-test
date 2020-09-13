@@ -48,9 +48,8 @@ pipeline {
         always {
             withCredentials([string(credentialsId: 'github-api-token', variable: 'TOKEN')]) {
                 script {
-                    def BUILD_LOG = readFile(file: 'stdout').trim()
+                    def BUILD_LOG = readFile('stdout').trim()
                     sh "echo $BUILD_LOG"
-
 
                     def data = [
                             event: "COMMENT",
