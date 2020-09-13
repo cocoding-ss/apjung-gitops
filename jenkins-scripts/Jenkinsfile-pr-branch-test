@@ -60,10 +60,20 @@ pipeline {
                             [name: "Accept", value: "application/vnd.github.v3+json"]
                     ]
 
-                    httpRequest url: "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO/reviews", httpMode: 'POST', requestBody: COMMENT_DATA, customHeaders: header, contentType: 'APPLICATION_JSON_UTF8'
+                    httpRequest url: "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO/reviews",
+                                httpMode: 'POST',
+                                requestBody: COMMENT_DATA,
+                                customHeaders: header,
+                                contentType: 'APPLICATION_JSON_UTF8'
 
-//                    httpRequest consoleLogResponseBody: true, contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: toJson(body), url: "https://${host}", validResponseCodes: '200'
-//                    sh "curl -X POST 'https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO/reviews' --header 'Accept:application/vnd.github.v3+json' --header 'Authorization: token $TOKEN' --header 'Content-Type: application/json' --data-raw '$COMMENT_DATA'"
+                    def successLabel = [
+                            labels: ["build success"]
+                    ]
+                    httpRequest url: "https://api.github.com/repos/cocoding-ss/apjung-backend/issues/$PULL_REQUEST_NO/labels",
+                                httpMode: 'POST',
+                                requestBody: JsonOutput.toJson(successLabel),
+                                customHeaders: header,
+                                contentType: 'APPLICATION_JSON_UTF8'
                 }
             }
         }
