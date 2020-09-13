@@ -53,12 +53,7 @@ pipeline {
     post {
         success {
             withCredentials([string(credentialsId: 'github-api-token', variable: 'TOKEN')]) {
-                sh "curl -X POST " +
-                        "-H \'Accept: application/vnd.github.v3+json\' " +
-                        "-H \'Authorization: token $TOKEN\' " +
-                        "-H \'Content-Type: application/json\' " +
-                        "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO/reviews " +
-                        "-d \'$COMMENT_DATA\'"
+                sh "curl -X POST https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO/reviews -H 'Accept:application/vnd.github.v3+json' -H 'Authorization: token $TOKEN' --data-raw '$COMMENT_DATA'"
             }
         }
     }
