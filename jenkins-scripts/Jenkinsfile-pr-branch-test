@@ -71,6 +71,11 @@ pipeline {
         failure {
             withCredentials([string(credentialsId: 'github-api-token', variable: 'TOKEN')]) {
                 script {
+                    def header = [
+                            [name: "Authorization", value: "token $TOKEN"],
+                            [name: "Accept", value: "application/vnd.github.v3+json"]
+                    ]
+
                     def successLabel = [
                             labels: ["build fail"]
                     ]
@@ -85,6 +90,11 @@ pipeline {
         success {
             withCredentials([string(credentialsId: 'github-api-token', variable: 'TOKEN')]) {
                 script {
+                    def header = [
+                            [name: "Authorization", value: "token $TOKEN"],
+                            [name: "Accept", value: "application/vnd.github.v3+json"]
+                    ]
+
                     def successLabel = [
                             labels: ["build success"]
                     ]
