@@ -34,7 +34,7 @@ pipeline {
                     BUILD_LOG = sh (
                             script: "./gradlew clean build -Pprofile=dev",
                             returnStdout: true
-                    )
+                    ).trim().split('\r\n').join('\n')
                 }
             }
         }
