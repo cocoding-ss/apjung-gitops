@@ -1,0 +1,124 @@
+import groovy.json.JsonOutput
+import jdk.jfr.ContentType
+
+pipeline {
+    agent any
+    triggers {
+        GenericTrigger (
+            genericVariables: [
+                [key: 'action', value: '$.action'],
+                [key: 'branch', value: '$.pull_request.head.ref' ],
+                [key: 'PULL_REQUEST_NO', value: '$.pull_request.number']
+            ],
+
+            causeString: 'Triggered on $branch',
+            token: 'kucby7dvrbjyh7yna25mchaqzzkj98zh3em0jkre',
+
+            printContributedVariables: false,
+            printPostContent: false,
+
+            silentResponse: false,
+
+            regexpFilterText: '$action',
+            regexpFilterExpression: 'opened|reopened'
+        )
+    }
+    stages {
+        stage('Git checkout') {
+            steps {
+                git branch: "$branch",
+                    credentialsId: 'apjung-backend',
+                    url: 'git@github.com:cocoding-ss/apjung-backend.git'
+            }
+        }
+        stage('Gradle build') {
+            steps {
+                script {
+                    sh (
+                            script: '''#!/bin/bash
+                                ./gradlew clean build -Pprofile=dev &>stdout
+                            ''',
+                            returnStdout: true
+                    )
+                }
+            }
+        }
+    }
+    post {
+        always {
+            withCredentials([string(credentialsId: 'github-api-token', variable: 'TOKEN')]) {
+                script {
+                    def BUILD_LOG = readFile('stdout').trim()
+
+                    def data = [
+                            event: "COMMENT",
+                            body: BUILD_LOG
+                    ]
+                    def COMMENT_DATA = JsonOutput.toJson(data)
+
+                    sh (
+                            script: "echo $COMMENT_DATA"
+                    )
+
+                    def header = [
+                            [name: "Authorization", value: "token $TOKEN"],
+                            [name: "Accept", value: "application/vnd.github.v3+json"]
+                    ]
+
+                    httpRequest url: "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO/reviews",
+                            httpMode: 'POST',
+                            requestBody: COMMENT_DATA,
+                            customHeaders: header,
+                            contentType: 'APPLICATION_JSON_UTF8'
+                }
+            }
+        }
+        failure {
+            withCredentials([string(credentialsId: 'github-api-token', variable: 'TOKEN')]) {
+                script {
+                    def header = [
+                            [name: "Authorization", value: "token $TOKEN"],
+                            [name: "Accept", value: "application/vnd.github.v3+json"]
+                    ]
+
+                    def successLabel = [
+                            labels: ["build fail"]
+                    ]
+                    httpRequest url: "https://api.github.com/repos/cocoding-ss/apjung-backend/issues/$PULL_REQUEST_NO/labels",
+                            httpMode: 'POST',
+                            requestBody: JsonOutput.toJson(successLabel),
+                            customHeaders: header,
+                            contentType: 'APPLICATION_JSON_UTF8'
+
+                    def state = [
+                            state: 'closed'
+                    ]
+                    httpRequest url: "https://api.github.com/repos/cocoding-ss/apjung-backend/pulls/$PULL_REQUEST_NO",
+                                httpMode: 'PATCH',
+                                requestBody: JsonOutput.toJson(state),
+                                customHeaders: header,
+                                contentType: 'APPLICATION_JSON_UTF8'
+                }
+            }
+        }
+        success {
+            withCredentials([string(credentialsId: 'github-api-token', variable: 'TOKEN')]) {
+                script {
+                    def header = [
+                            [name: "Authorization", value: "token $TOKEN"],
+                            [name: "Accept", value: "application/vnd.github.v3+json"]
+                    ]
+
+                    def successLabel = [
+                            labels: ["build success"]
+                    ]
+                    httpRequest url: "https://api.github.com/repos/cocoding-ss/apjung-backend/issues/$PULL_REQUEST_NO/labels",
+                                httpMode: 'POST',
+                                requestBody: JsonOutput.toJson(successLabel),
+                                customHeaders: header,
+                                contentType: 'APPLICATION_JSON_UTF8'
+                }
+            }
+        }
+    }
+}
