@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apjung-backend-deploy
+  namespace: dev
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: apjung-backend-pod
+  template:
+    metadata:
+      labels:
+        app: apjung-backend-pod
+    spec:
+      containers:
+        - name: apjung-backend
+          image: labyu/apjung-backend:dev-18
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: dockerhub-secrets
