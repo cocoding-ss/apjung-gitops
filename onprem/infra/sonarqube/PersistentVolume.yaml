@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: sonarqube-extensions-volume
+  namespace: sonarqube
+  labels:
+    storage: sonarqube-extensions
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
+  hostPath:
+    path: /storage/pv/sonarqube/extensions
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: sonarqube-data-volume
+  namespace: sonarqube
+  labels:
+    storage: sonarqube-data
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
+  hostPath:
+    path: /storage/pv/sonarqube/data
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: sonarqube-logs-volume
+  namespace: sonarqube
+  labels:
+    storage: sonarqube-logs
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
+  hostPath:
+    path: /storage/pv/sonarqube/logs
+
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: sonarqube-conf-volume
+  namespace: sonarqube
+  labels:
+    storage: sonarqube-conf
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
+  hostPath:
+    path: /storage/pv/sonarqube/conf
