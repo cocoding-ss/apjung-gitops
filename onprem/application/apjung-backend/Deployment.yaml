@@ -1,35 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wiro-account-deploy
-  namespace: development
+  name: apjung-backend-deploy
+  namespace: dev
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: wiro-account-pod
+      app: apjung-backend-pod
   template:
     metadata:
       labels:
-        app: wiro-account-pod
+        app: apjung-backend-pod
     spec:
       containers:
-        - name: wiro-account
-          image: labyu/wiro-account:48
+        - name: apjung-backend
+          image: labyu/apjung-backend:dev-18
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
-          envFrom:
-            - configMapRef:
-                name: aws-credentials
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 8080
-              httpHeaders:
-                - name: X-Custom-Header
-                  value: HealthCheck
-            initialDelaySeconds: 15
-            timeoutSeconds: 2
       imagePullSecrets:
         - name: dockerhub-secrets
