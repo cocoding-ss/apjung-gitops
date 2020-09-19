@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: apjung-backend
-          image: labyu/apjung-backend:dev-34
+          image: labyu/apjung-backend:dev-35
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
