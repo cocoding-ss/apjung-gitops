@@ -11,10 +11,10 @@ metadata:
 spec:
   tls:
   - hosts:
-      - api.apjung.me
+      - api.apjung.xyz
     secretName: tls-secret
   rules:
-  - host: api.apjung.me
+  - host: api.apjung.xyz
     http:
       paths:
       - path: /
