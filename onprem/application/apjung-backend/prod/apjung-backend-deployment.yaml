@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: apjung-backend-deployment
-  namespace: dev
+  namespace: prod
 spec:
   replicas: 3
   selector:
