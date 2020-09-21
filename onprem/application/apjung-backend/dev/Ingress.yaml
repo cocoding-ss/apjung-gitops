@@ -12,7 +12,7 @@ spec:
   tls:
   - hosts:
       - api.apjung.xyz
-    secretName: tls-secret
+    secretName: tls-secret-dev
   rules:
   - host: api.apjung.xyz
     http:
