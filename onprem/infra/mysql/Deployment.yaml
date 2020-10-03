@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-dev-deployment
+  namespace: mysql
+  labels:
+    app: mysql-dev-deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-dev-pod
+
+  template:
+    metadata:
+      labels:
+        app: mysql-dev-pod
+    spec:
+      containers:
+        - name: mysql-dev-pod
+          image: mysql:8.0.21
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dbsecret
+                  key: MYSQL_ROOT_PASSWORD
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql-dev-volume
+      volumes:
+        - name: mysql-dev-volume
+          persistentVolumeClaim:
+            claimName: pvc-mysql-dev
