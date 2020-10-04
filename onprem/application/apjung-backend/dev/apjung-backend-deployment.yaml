@@ -22,5 +22,7 @@ spec:
           envFrom:
             - secretRef:
                 name: dbsecret
+            - secretRef:
+                name: jwtsecret
       imagePullSecrets:
         - name: dockerhub-secrets
