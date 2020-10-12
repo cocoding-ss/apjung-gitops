@@ -24,5 +24,7 @@ spec:
                 name: dbsecret
             - secretRef:
                 name: jwtsecret
+            - secretRef:
+                name: smtpsecret
       imagePullSecrets:
         - name: dockerhub-secrets
