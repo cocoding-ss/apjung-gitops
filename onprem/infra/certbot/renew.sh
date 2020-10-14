@@ -20,6 +20,7 @@ KEY_PATH=/etc/letsencrypt/live/apjung.me/privkey.pem
 CERT_PATH=/etc/letsencrypt/live/apjung.me/cert.pem
 
 
+PROD=prod
 ARGOCD=argocd
 JENKINS=jenkins
 SONARQUBE=sonarqube
@@ -30,7 +31,8 @@ kubectl delete secret $SECRET
 kubectl -n $ARGOCD delete secret $SECRET
 kubectl -n $JENKINS delete secret $SECRET 
 kubectl -n $SONARQUBE delete secret $SECRET
-kubectl -n $MONITORING delete secret $SECRET
+# kubectl -n $MONITORING delete secret $SECRET
+kubectl -n $PROD delete secret $SECRET
 
 # default에 시크릿생성
 kubectl create secret tls $SECRET --key $KEY_PATH --cert $CERT_PATH
@@ -44,4 +46,8 @@ kubectl get secret $SECRET --namespace=default -oyaml | grep -v namespace | kube
 # SonarQube로 시크릿복사
 kubectl get secret $SECRET --namespace=default -oyaml | grep -v namespace | kubectl apply --namespace=$SONARQUBE -f -
 
-kubectl get secret $SECRET --namespace=default -oyaml | grep -v namespace | kubectl apply --namespace=$MONITORING -f -
+# Monitoring
+# kubectl get secret $SECRET --namespace=default -oyaml | grep -v namespace | kubectl apply --namespace=$MONITORING -f -
+
+# Prod
+kubectl get secret $SECRET --namespace=default -oyaml | grep -v namespace | kubectl apply --namespace=$PROD -f -
