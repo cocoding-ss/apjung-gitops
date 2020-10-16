@@ -22,20 +22,20 @@ spec:
           image: sonarqube:latest
           ports:
             - containerPort: 9000
-#          volumeMounts:
- #           - mountPath: /opt/sonarqube/data
-  #            name: sonarqube-volume-data
-          #  - mountPath: /opt/sonarqube/extensions
-          #    name: sonarqube-volume-extensions
-   #         - mountPath: /opt/sonarqube/conf
-    #          name: sonarqube-volume-conf
-#      volumes:
- #       - name: sonarqube-volume-data
-  #        persistentVolumeClaim:
-   #         claimName: pvc-sonarqube-data
-     #   - name: sonarqube-volume-extensions
-    #      persistentVolumeClaim:
-     #       claimName: pvc-sonarqube-extensions
-     #   - name: sonarqube-volume-conf
-     #     persistentVolumeClaim:
-            #claimName: pvc-sonarqube-conf
+          volumeMounts:
+            - mountPath: /opt/sonarqube/data
+              name: sonarqube-volume-data
+            #- mountPath: /opt/sonarqube/extensions
+            #  name: sonarqube-volume-extensions
+            #- mountPath: /opt/sonarqube/conf
+            #  name: sonarqube-volume-conf
+      volumes:
+        - name: sonarqube-volume-data
+          persistentVolumeClaim:
+            claimName: pvc-sonarqube-data
+        #- name: sonarqube-volume-extensions
+        #  persistentVolumeClaim:
+        #    claimName: pvc-sonarqube-extensions
+        #- name: sonarqube-volume-conf
+        #  persistentVolumeClaim:
+        #    claimName: pvc-sonarqube-conf
