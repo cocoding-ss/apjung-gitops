@@ -19,5 +19,12 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: dbsecret
+            - secretRef:
+                name: jwtsecret
+            - secretRef:
+                name: smtpsecret
       imagePullSecrets:
         - name: dockerhub-secrets
