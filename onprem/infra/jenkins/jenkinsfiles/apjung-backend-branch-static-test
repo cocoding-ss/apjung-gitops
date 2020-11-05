@@ -1,0 +1,38 @@
+import groovy.json.JsonOutput
+import jdk.jfr.ContentType
+
+pipeline {
+    agent {
+        label 'jenkins-master'
+    }
+    stages {
+        stage('Git checkout') {
+
+            steps {
+                git branch: "${ghprbSourceBranch}",
+                    credentialsId: 'apjung-backend',
+                    url: 'git@github.com:cocoding-ss/apjung-backend.git'
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+
+                    withSonarQubeEnv() {
+                        withCredentials([string(credentialsId: 'github-api-token', variable: 'GITHUB_TOKEN')]) {
+                            sh "printenv"
+                            sh (
+                                script: """#!/bin/bash
+                                    ./gradlew -Dfile.encoding=UTF-8 test sonarqube --stacktrace \
+                                      -Dsonar.projectKey=apjung:backend \
+                                      -Dsonar.host.url=${SONAR_HOST_URL} \
+                                      -Dsonar.login=${SONAR_AUTH_TOKEN}
+                                """
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

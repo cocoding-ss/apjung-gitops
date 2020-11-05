@@ -1,0 +1,30 @@
+import groovy.json.JsonOutput
+import jdk.jfr.ContentType
+
+pipeline {
+    agent {
+        label 'jenkins-master'
+    }
+    stages {
+        stage('Git checkout') {
+
+            steps {
+                git branch: "${ghprbSourceBranch}",
+                    credentialsId: 'apjung-backend',
+                    url: 'git@github.com:cocoding-ss/apjung-backend.git'
+            }
+        }
+        stage('Gradle build') {
+            steps {
+                script {
+                    sh (
+                            script: '''#!/bin/bash
+                                ./gradlew -Dfile.encoding=UTF-8 clean build -Pprofile=test
+                            ''',
+                            returnStdout: true
+                    )
+                }
+            }
+        }
+    }
+}

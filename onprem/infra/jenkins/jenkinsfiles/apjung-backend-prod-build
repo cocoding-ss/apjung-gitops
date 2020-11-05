@@ -1,0 +1,104 @@
+import groovy.json.JsonOutput
+import jdk.jfr.ContentType
+
+pipeline {
+    agent {
+        label 'apjung-backend-prod-agent'
+    }
+    triggers {
+        GenericTrigger (
+            genericVariables: [
+                [key: 'PUSH_REF', value: '$.ref'],
+            ],
+
+            causeString: 'Triggered',
+            token: 'kucby7dvrbjyh7yna25mchaqzzkj98zh3em0jkre',
+
+            printContributedVariables: false,
+            printPostContent: false,
+
+            silentResponse: false,
+
+            regexpFilterText: '$PUSH_REF',
+            regexpFilterExpression: 'refs/heads/master'
+        )
+    }
+    stages {
+        stage('Git checkout') {
+            steps {
+                git branch: "master",
+                    credentialsId: 'apjung-backend',
+                    url: 'git@github.com:cocoding-ss/apjung-backend.git'
+            }
+        }
+        stage('Prod Server Build Test') {
+            steps {
+                retry(2) {
+                    withCredentials([string(credentialsId: 'MYSQL_DEV_PASSWORD', variable: 'MYSQL_ROOT_PASSWORD')]) {
+                    sh '''#!/bin/bash
+                    ./gradlew -Pprofile=prod flywayMigrate
+                    ./gradlew -Dfile.encoding=UTF-8 -Pprofile=prod clean build
+                    '''
+                    }
+                }
+            }
+        }
+        stage('Docker Build & Push') {
+            steps {
+                retry(3) {
+                    withCredentials([string(credentialsId: 'dockerhub-username', variable: 'USERNAME'), string(credentialsId: 'dockerhub-password', variable: 'PASSWORD')]) {
+                    sh """#!/bin/bash
+                    ./gradlew -Dfile.encoding=UTF-8 -Pprofile=prod jib \
+                       -Djib.to.image=labyu/apjung-backend:prod-${BUILD_NUMBER} \
+                       -Djib.to.auth.username=${USERNAME} \
+                       -Djib.to.auth.password='${PASSWORD}' --stacktrace
+                    """
+                    }
+                }
+            }
+        }
+        stage('Deploy approval'){
+            input {
+                message "Deploy to Prod ?"
+                ok "Yes"
+                parameters {
+                    string(name: 'PERSON', defaultValue: 'labyu', description: 'Who am I?')
+                }
+            }
+            steps {
+                echo "Hello, ${PERSON}, deploy to prod"
+            }
+        }
+        stage('clean up workspace') {
+            steps {
+                step([$class: 'WsCleanup'])
+            }
+        }
+        stage('GitOps Checkout') {
+            steps {
+                git branch: "master",
+                    credentialsId: 'apjung-gitops',
+                    url: 'git@github.com:cocoding-ss/apjung-gitops.git'
+            }
+        }
+        stage('GitOps Patch') {
+
+            steps {
+                sshagent(credentials : ['apjung-gitops']) {
+                    sh '''#!/bin/bash
+                    cd onprem/application/apjung-backend/prod
+                    BEFORE=$(cat apjung-backend-deployment.yaml | grep 'image: labyu/apjung-backend:prod-' | sed -e 's/^ *//g' -e 's/ *$//g')
+                    sed -i "s@$BEFORE@image: labyu/apjung-backend:prod-$BUILD_NUMBER@g" apjung-backend-deployment.yaml
+
+                    git config user.name labyu
+                    git config user.email labyu2020@gmail.com
+                    git add .
+                    git commit -m "Jenkins Prod Server Version Up $BUILD_NUMBER"
+                    git push origin master
+                    '''
+                }
+
+            }
+        }
+   }
+}
