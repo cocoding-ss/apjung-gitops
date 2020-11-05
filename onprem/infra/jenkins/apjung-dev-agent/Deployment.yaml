@@ -28,7 +28,7 @@ spec:
             - name: JENKINS_JAVA_OPTIONS
               value: "-Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia/Seoul"
             - name: JENKINS_URL
-              value: "http://jenkins-service:8080"
+              value: "http://jenkins-master-svc:8080"
             - name: JENKINS_AGENT_NAME
               value: "apjung-dev-agent"
 
