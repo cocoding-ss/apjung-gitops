@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: apjung-backend-ingress
+  name: apjung-backend-dev.ingress
   namespace: dev
   annotations:
     kubernetes.io/ingress.class: "nginx"
@@ -19,5 +19,5 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: apjung-backend-svc
-          servicePort: 8080
+          serviceName: apjung-backend-dev.svc
+          servicePort: 80

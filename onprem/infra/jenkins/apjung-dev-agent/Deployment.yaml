@@ -1,21 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jenkins-apjung-dev-agent-deployment
+  name: jenkins-apjung-dev-agent.deploy
   namespace: jenkins
   labels:
+    app.kubernetes.io/name: jenkins-apjung-dev-agent
+    app.kubernetes.io/instance: jenkins-apjung-dev-agent.deploy
     app: jenkins-deployment
-
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: jenkins-apjung-dev-agent-pod
-
+      app.kubernetes.io/instance: jenkins-apjung-dev-agent.pod
   template:
     metadata:
       labels:
-        app: jenkins-apjung-dev-agent-pod
+        app.kubernetes.io/name: jenkins-apjung-dev-agent
+        app.kubernetes.io/instance: jenkins-apjung-dev-agent.pod
     spec:
       containers:
         - name: jenkins-pod
@@ -30,13 +31,13 @@ spec:
               value: "http://jenkins-service:8080"
             - name: JENKINS_AGENT_NAME
               value: "apjung-dev-agent"
-            - name: JENKINS_SECRET
-              value: '5c781cadf7617cf13afcffe853857a1c3babed535fd4654dfe4b3e1beb04362d'
 
-          volumeMounts:
-            - mountPath: /var/jenkins_home
-              name: jenkins-apjung-dev-agent-volume
-      volumes:
-        - name: jenkins-apjung-dev-agent-volume
-          persistentVolumeClaim:
-            claimName: pvc-jenkins-apjung-dev-agent
+          envFrom:
+            - secretRef:
+                name: apjuing-backend-dev.secret-db
+            - secretRef:
+                name: apjuing-backend-dev.secret-jwt
+            - secretRef:
+                name: apjuing-backend-dev.secret-smtp
+            - secretRef:
+                name: jenkins-apjung-dev-agent.secret

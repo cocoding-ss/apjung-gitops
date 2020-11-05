@@ -1,36 +1,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jenkins-deployment
+  name: jenkins-master.deploy
   namespace: jenkins
   labels:
-    app: jenkins-deployment
-
+    app.kubernetes.io/name: jenkins-master
+    app.kubernetes.io/instance: jenkins-master.deploy
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: jenkins-pod
-
   template:
     metadata:
       labels:
-        app: jenkins-pod
+        app.kubernetes.io/name: jenkins-master
+        app.kubernetes.io/instance: jenkins-master.pod
     spec:
       containers:
-        - name: jenkins-pod
+        - name: jenkins-master.pod
           image: jenkins/jenkins:jdk11
           ports:
             - containerPort: 8080
             - containerPort: 50000
+
           env:
             - name: JENKINS_JAVA_OPTIONS
               value: "-Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia/Seoul"
 
           volumeMounts:
             - mountPath: /var/jenkins_home
-              name: jenkins-volume
+              name: jenkins-master.pvc
+
       volumes:
-        - name: jenkins-volume
+        - name: jenkins-master.pvc
           persistentVolumeClaim:
-            claimName: pvc-jenkins
+            claimName: jenkins-master.pvc
