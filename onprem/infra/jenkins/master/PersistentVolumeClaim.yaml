@@ -13,7 +13,7 @@ spec:
   resources:
     requests:
       storage: 5Gi
-  storageClassName: manual
+  storageClassName: local-storage
   selector:
     matchLabels:
       app.kubernetes.io/instance: jenkins-master-pv
