@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jenkins-master.pvc
+  name: jenkins-master-pvc
   namespace: jenkins
   labels:
     app.kubernetes.io/name: jenkins-master
-    app.kubernetes.io/instance: jenkins-master.pvc
+    app.kubernetes.io/instance: jenkins-master-pvc
 spec:
   accessModes:
     - ReadWriteMany
@@ -16,4 +16,4 @@ spec:
   storageClassName: manual
   selector:
     matchLabels:
-      app.kubernetes.io/instance: jenkins-master.pv
+      app.kubernetes.io/instance: jenkins-master-pv

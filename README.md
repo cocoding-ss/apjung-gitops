@@ -50,7 +50,7 @@
 - 예시 `infra/jenkins/Deploy.yaml`
 
 ### 오브젝트 `metadata.name` 작성 규칙
-- directory를 하이푼(-)으로 분리한다. 예를들어 디렉토리가 apjung-backend/dev에 있는 Deployment라면 `apjung-backend-dev.deploy`가 된다
+- directory를 하이푼(-)으로 분리한다. 예를들어 디렉토리가 apjung-backend/dev에 있는 Deployment라면 `apjung-backend-dev-deploy`가 된다
 
 <table>
 <tr>
@@ -61,9 +61,9 @@
 </tr>
 <tr>
     <td>Deployment</td>
-    <td>{directory}-{directory}.deploy</td>
+    <td>{directory}-{directory}-deploy</td>
     <td>infra/jenkins/dev-agent/Deployment.yaml</td>
-    <td>infra-jenkins-dev-agent.deploy</td>
+    <td>infra-jenkins-dev-agent-deploy</td>
 </tr>
 </table>
 

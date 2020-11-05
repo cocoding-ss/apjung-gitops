@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jenkins-master.deploy
+  name: jenkins-master-deploy
   namespace: jenkins
   labels:
     app.kubernetes.io/name: jenkins-master
-    app.kubernetes.io/instance: jenkins-master.deploy
+    app.kubernetes.io/instance: jenkins-master-deploy
 spec:
   replicas: 1
   selector:
@@ -15,10 +15,10 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: jenkins-master
-        app.kubernetes.io/instance: jenkins-master.pod
+        app.kubernetes.io/instance: jenkins-master-pod
     spec:
       containers:
-        - name: jenkins-master.pod
+        - name: jenkins-master-pod
           image: jenkins/jenkins:jdk11
           ports:
             - containerPort: 8080
@@ -30,9 +30,9 @@ spec:
 
           volumeMounts:
             - mountPath: /var/jenkins_home
-              name: jenkins-master.pvc
+              name: jenkins-master-pvc
 
       volumes:
-        - name: jenkins-master.pvc
+        - name: jenkins-master-pvc
           persistentVolumeClaim:
-            claimName: jenkins-master.pvc
+            claimName: jenkins-master-pvc

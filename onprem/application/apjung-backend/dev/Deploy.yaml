@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: apjung-backend-dev.deploy
+  name: apjung-backend-dev-deploy
   namespace: dev
   labels:
     app.kubernetes.io/name: apjung-backend-dev
-    app.kubernetes.io/instance: apjung-backend-dev.deploy
+    app.kubernetes.io/instance: apjung-backend-dev-deploy
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app.kubernetes.io/instance: apjung-backend-dev.pod
+      app.kubernetes.io/instance: apjung-backend-dev-pod
   template:
     metadata:
       labels:
         app.kubernetes.io/name: apjung-backend-dev
-        app.kubernetes.io/instance: apjung-backend-dev.pod
+        app.kubernetes.io/instance: apjung-backend-dev-pod
     spec:
       imagePullSecrets:
         - name: dockerhub-secrets
       containers:
-        - name: apjung-backend-dev.pod
+        - name: apjung-backend-dev-pod
           image: labyu/apjung-backend:dev-98
           ports:
             - containerPort: 8080

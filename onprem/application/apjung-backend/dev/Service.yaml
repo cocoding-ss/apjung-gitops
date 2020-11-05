@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: apjung-backend-dev.svc
+  name: apjung-backend-dev-svc
   namespace: dev
   labels:
     app.kubernetes.io/name: apjung-backend-dev
-    app.kubernetes.io/instance: apjung-backend-dev.svc
+    app.kubernetes.io/instance: apjung-backend-dev-svc
 spec:
   ports:
     - name: http
@@ -13,5 +13,5 @@ spec:
       port: 80
       targetPort: 8080
   selector:
-    app.kubernetes.io/instance: apjung-backend-dev.pod
+    app.kubernetes.io/instance: apjung-backend-dev-pod
   type: ClusterIP

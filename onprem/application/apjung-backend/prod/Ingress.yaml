@@ -19,5 +19,5 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: apjung-backend-prod.svc
+          serviceName: apjung-backend-prod-svc
           servicePort: 80
