@@ -28,7 +28,7 @@ spec:
             - name: JENKINS_JAVA_OPTIONS
               value: "-Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia/Seoul"
             - name: JENKINS_URL
-              value: "http://jenkins-master-svc:8080"
+              value: "http://jenkins-master-svc"
             - name: JENKINS_AGENT_NAME
               value: "apjung-backend-dev-agent"
 
@@ -40,4 +40,4 @@ spec:
             - secretRef:
                 name: apjuing-backend-dev.secret-smtp
             - secretRef:
-                name: jenkins-apjung-dev-agent.secret
+                name: jenkins-apjung-backend-dev-agent.secret
