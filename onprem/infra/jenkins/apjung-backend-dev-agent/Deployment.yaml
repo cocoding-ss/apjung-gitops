@@ -19,7 +19,7 @@ spec:
         app.kubernetes.io/instance: jenkins-apjung-backend-dev-agent-pod
     spec:
       containers:
-        - name: jenkins-pod
+        - name: jenkins-apjung-backend-dev-agent-pod
           image: jenkins/inbound-agent:latest-jdk11
           ports:
             - containerPort: 8080
