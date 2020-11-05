@@ -10,7 +10,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: jenkins-pod
+      app.kubernetes.io/instance: jenkins-master-pod
   template:
     metadata:
       labels:
