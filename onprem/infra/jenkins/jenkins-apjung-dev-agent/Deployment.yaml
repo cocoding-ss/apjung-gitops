@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-apjung-dev-agent-deployment
+  namespace: jenkins
+  labels:
+    app: jenkins-deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins-apjung-dev-agent-pod
+
+  template:
+    metadata:
+      labels:
+        app: jenkins-apjung-dev-agent-pod
+    spec:
+      containers:
+        - name: jenkins-pod
+          image: jenkins/inbound-agent:latest-jdk11
+          ports:
+            - containerPort: 8080
+            - containerPort: 50000
+          env:
+            - name: JENKINS_JAVA_OPTIONS
+              value: "-Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia/Seoul"
+            - name: JENKINS_URL
+              value: "http://jenkins-service:8080"
+            - name: JENKINS_AGENT_NAME
+              value: "apjung-dev-agent"
+            - name: JENKINS_SECRET
+              value: '5c781cadf7617cf13afcffe853857a1c3babed535fd4654dfe4b3e1beb04362d'
+
+          volumeMounts:
+            - mountPath: /var/jenkins_home
+              name: jenkins-apjung-dev-agent-volume
+      volumes:
+        - name: jenkins-apjung-dev-agent-volume
+          persistentVolumeClaim:
+            claimName: pvc-jenkins-apjung-dev-agent
