@@ -1,21 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql-dev-deployment
+  name: mysql-dev-deploy
   namespace: mysql
   labels:
-    app: mysql-dev-deployment
+    app.kubernetes.io/name: mysql-dev
+    app.kubernetes.io/instance: mysql-dev-deploy
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mysql-dev-pod
-
+      app.kubernetes.io/instance: mysql-dev-pod
   template:
     metadata:
       labels:
-        app: mysql-dev-pod
+        app.kubernetes.io/name: mysql-dev
+        app.kubernetes.io/instance: mysql-dev-pod
     spec:
       containers:
         - name: mysql-dev-pod
@@ -36,4 +37,4 @@ spec:
       volumes:
         - name: mysql-dev-volume
           persistentVolumeClaim:
-            claimName: pvc-mysql-dev
+            claimName: mysql-dev-pvc
