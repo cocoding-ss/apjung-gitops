@@ -7,4 +7,4 @@ metadata:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
 data:
-  3306: "mysql/mysql-dev-service:3306"
+  3306: "mysql/mysql-dev-svc:3306"
