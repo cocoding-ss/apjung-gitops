@@ -4,8 +4,8 @@ metadata:
   name: mysql-dev-pv
   namespace: mysql
   labels:
-  app.kubernetes.io/name: mysql-dev
-  app.kubernetes.io/instance: mysql-dev-pv
+    app.kubernetes.io/name: mysql-dev
+    app.kubernetes.io/instance: mysql-dev-pv
 spec:
   capacity:
     storage: 30Gi
