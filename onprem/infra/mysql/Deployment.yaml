@@ -6,7 +6,6 @@ metadata:
   labels:
     app.kubernetes.io/name: mysql-dev
     app.kubernetes.io/instance: mysql-dev-deploy
-
 spec:
   replicas: 1
   selector:

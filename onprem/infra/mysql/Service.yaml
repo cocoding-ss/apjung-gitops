@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-dev-service
+  name: mysql-dev-svc
   namespace: mysql
 spec:
   type: ClusterIP
