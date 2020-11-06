@@ -6,7 +6,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: mysql-dev-pod
+    app.kubernetes.io/instance: mysql-dev-pod
   ports:
     - name: db
       port: 3306
