@@ -3,7 +3,7 @@ import jdk.jfr.ContentType
 
 pipeline {
     agent {
-        label 'jenkins-master'
+        label 'apjung-backend-branch-test-agent'
     }
     stages {
         stage('Git checkout') {
