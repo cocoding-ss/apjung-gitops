@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-apjung-backend-bracnh-test-agent-deploy
+  namespace: jenkins
+  labels:
+    app.kubernetes.io/name: jenkins-apjung-backend-bracnh-test-agent
+    app.kubernetes.io/instance: jenkins-apjung-backend-bracnh-test-agent-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: jenkins-apjung-backend-bracnh-test-agent-pod
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: jenkins-apjung-backend-bracnh-test-agent
+        app.kubernetes.io/instance: jenkins-apjung-backend-bracnh-test-agent-pod
+    spec:
+      containers:
+        - name: jenkins-apjung-backend-bracnh-test-agent-pod
+          image: jenkins/jenkins:jdk11
+          ports:
+            - containerPort: 8080
+            - containerPort: 50000
+
+          env:
+            - name: JENKINS_JAVA_OPTIONS
+              value: "-Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia/Seoul"

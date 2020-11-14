@@ -6,7 +6,6 @@ metadata:
   labels:
     app.kubernetes.io/name: jenkins-apjung-backend-dev-agent
     app.kubernetes.io/instance: jenkins-apjung-backend-dev-agent-deploy
-    app: jenkins-deployment
 spec:
   replicas: 1
   selector:
