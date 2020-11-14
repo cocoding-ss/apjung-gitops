@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: jenkins-apjung-backend-bracnh-test-agent-pod
-          image: jenkins/jenkins:jdk11
+          image: jenkins/inbound-agent:latest-jdk11
           ports:
             - containerPort: 8080
             - containerPort: 50000
@@ -27,3 +27,11 @@ spec:
           env:
             - name: JENKINS_JAVA_OPTIONS
               value: "-Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia/Seoul"
+            - name: JENKINS_URL
+              value: "http://jenkins-master-svc"
+            - name: JENKINS_AGENT_NAME
+              value: "apjung-backend-branch-test-agent"
+
+          envFrom:
+            - secretRef:
+                name: jenkins-apjung-backend-branch-test-agent.secret
