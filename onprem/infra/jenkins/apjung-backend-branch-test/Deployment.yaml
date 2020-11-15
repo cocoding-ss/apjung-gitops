@@ -36,4 +36,4 @@ spec:
             - secretRef:
                 name: jenkins-apjung-backend-branch-test-agent.secret
             - secretRef:
-                name: apjuing-backend-aws.secret
+                name: apjung-backend-aws.secret

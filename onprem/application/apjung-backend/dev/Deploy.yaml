@@ -35,4 +35,4 @@ spec:
             - secretRef:
                 name: apjung-backend-dev.secret-smtp
             - secretRef:
-                name: apjuing-backend-aws.secret
+                name: apjung-backend-aws.secret
