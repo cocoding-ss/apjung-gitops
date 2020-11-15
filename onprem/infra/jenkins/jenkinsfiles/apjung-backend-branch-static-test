@@ -23,7 +23,7 @@ pipeline {
                             sh "printenv"
                             sh (
                                 script: """#!/bin/bash
-                                    ./gradlew -Dfile.encoding=UTF-8 test sonarqube --stacktrace \
+                                    ./gradlew -Pprofile=test -Dfile.encoding=UTF-8 test sonarqube --stacktrace \
                                       -Dsonar.projectKey=apjung:backend \
                                       -Dsonar.host.url=${SONAR_HOST_URL} \
                                       -Dsonar.login=${SONAR_AUTH_TOKEN}
