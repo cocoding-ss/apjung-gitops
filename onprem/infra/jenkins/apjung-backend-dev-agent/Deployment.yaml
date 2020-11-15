@@ -40,3 +40,5 @@ spec:
                 name: apjuing-backend-dev.secret-smtp
             - secretRef:
                 name: jenkins-apjung-backend-dev-agent.secret
+            - secretRef:
+                name: apjuing-backend-aws.secret

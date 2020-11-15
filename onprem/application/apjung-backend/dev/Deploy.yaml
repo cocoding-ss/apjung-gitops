@@ -29,8 +29,10 @@ spec:
 
           envFrom:
             - secretRef:
-                name: apjuing-backend-dev.secret-db
+                name: apjung-backend-dev.secret-db
             - secretRef:
-                name: apjuing-backend-dev.secret-jwt
+                name: apjung-backend-dev.secret-jwt
             - secretRef:
-                name: apjuing-backend-dev.secret-smtp
+                name: apjung-backend-dev.secret-smtp
+            - secretRef:
+                name: apjuing-backend-aws.secret
