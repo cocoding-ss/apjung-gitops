@@ -87,8 +87,8 @@ pipeline {
                 sshagent(credentials : ['apjung-gitops']) {
                     sh '''#!/bin/bash
                     cd onprem/application/apjung-backend/prod
-                    BEFORE=$(cat apjung-backend-deployment.yaml | grep 'image: labyu/apjung-backend:prod-' | sed -e 's/^ *//g' -e 's/ *$//g')
-                    sed -i "s@$BEFORE@image: labyu/apjung-backend:prod-$BUILD_NUMBER@g" apjung-backend-deployment.yaml
+                    BEFORE=$(cat Deploy.yaml | grep 'image: labyu/apjung-backend:prod-' | sed -e 's/^ *//g' -e 's/ *$//g')
+                    sed -i "s@$BEFORE@image: labyu/apjung-backend:prod-$BUILD_NUMBER@g" Deploy.yaml
 
                     git config user.name labyu
                     git config user.email labyu2020@gmail.com
