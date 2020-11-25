@@ -35,7 +35,6 @@ pipeline {
             steps {
                 retry(2) {
                     withCredentials([string(credentialsId: 'MYSQL_DEV_PASSWORD', variable: 'MYSQL_ROOT_PASSWORD')]) {
-                    sh "printenv"
                     sh """#!/bin/bash
 
                     ./gradlew -Pprofile=dev flywayClean

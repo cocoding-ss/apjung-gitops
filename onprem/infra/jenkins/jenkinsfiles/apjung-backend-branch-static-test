@@ -20,7 +20,6 @@ pipeline {
 
                     withSonarQubeEnv() {
                         withCredentials([string(credentialsId: 'github-api-token', variable: 'GITHUB_TOKEN')]) {
-                            sh "printenv"
                             sh (
                                 script: """#!/bin/bash
                                     ./gradlew -Pprofile=test -Dfile.encoding=UTF-8 test sonarqube --stacktrace \
