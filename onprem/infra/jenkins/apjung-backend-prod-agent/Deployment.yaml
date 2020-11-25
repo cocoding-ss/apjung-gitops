@@ -33,11 +33,11 @@ spec:
 
           envFrom:
             - secretRef:
-                name: apjuing-backend-prod.secret-db
+                name: apjung-backend-prod.secret-db
             - secretRef:
-                name: apjuing-backend-prod.secret-jwt
+                name: apjung-backend-prod.secret-jwt
             - secretRef:
-                name: apjuing-backend-prod.secret-smtp
+                name: apjung-backend-prod.secret-smtp
             - secretRef:
                 name: jenkins-apjung-backend-prod-agent.secret
             - secretRef:
