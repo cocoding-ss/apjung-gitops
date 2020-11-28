@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: ResourceQuota
 metadata:
-  name: prod-resource
-  namespace: prod
+  name: mysql-resource
+  namespace: mysql
 spec:
   hard:
     requests.cpu: "250m"
