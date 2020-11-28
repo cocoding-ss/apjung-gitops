@@ -25,11 +25,11 @@ spec:
             - containerPort: 50000
           resources:
             requests:
-              memory: "2000Mi"
-              cpu: 1
+              memory: "500Mi"
+              cpu: "250m"
             limits:
-              memory: "2000Mi"
-              cpu: 1
+              memory: "500Mi"
+              cpu: "250m"
           env:
             - name: JENKINS_JAVA_OPTIONS
               value: "-Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia/Seoul"
