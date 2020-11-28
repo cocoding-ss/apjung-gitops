@@ -23,6 +23,12 @@ spec:
           ports:
             - containerPort: 8080
             - containerPort: 50000
+          requests:
+            memory: 800Mib
+            cpu: 250m
+          limits:
+            memory: 800Mib
+            cpu: 250m
           env:
             - name: JENKINS_JAVA_OPTIONS
               value: "-Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia/Seoul"
@@ -30,7 +36,6 @@ spec:
               value: "http://jenkins-master-svc"
             - name: JENKINS_AGENT_NAME
               value: "apjung-backend-prod-agent"
-
           envFrom:
             - secretRef:
                 name: apjung-backend-prod.secret-db
