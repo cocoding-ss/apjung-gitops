@@ -24,9 +24,7 @@ spec:
           image: labyu/apjung-backend:prod-15
           ports:
             - containerPort: 8080
-
           imagePullPolicy: Always
-
           envFrom:
             - secretRef:
                 name: apjung-backend-prod.secret-db

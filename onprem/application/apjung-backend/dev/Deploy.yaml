@@ -24,9 +24,7 @@ spec:
           image: labyu/apjung-backend:dev-103
           ports:
             - containerPort: 8080
-
           imagePullPolicy: Always
-
           envFrom:
             - secretRef:
                 name: apjung-backend-dev.secret-db
