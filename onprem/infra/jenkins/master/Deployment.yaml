@@ -26,10 +26,10 @@ spec:
           resources:
             requests:
               memory: "2000Mi"
-              cpu: "500m"
+              cpu: "1800m"
             limits:
               memory: "2000Mi"
-              cpu: "500m"
+              cpu: "1800m"
           env:
             - name: JENKINS_JAVA_OPTIONS
               value: "-Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia/Seoul"
