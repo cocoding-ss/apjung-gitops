@@ -25,10 +25,10 @@ spec:
             - containerPort: 50000
           resources:
             requests:
-              memory: "800Mib"
+              memory: "800Mi"
               cpu: "250m"
             limits:
-              memory: "800Mib"
+              memory: "800Mi"
               cpu: "250m"
           env:
             - name: JENKINS_JAVA_OPTIONS
