@@ -6,8 +6,8 @@ metadata:
 spec:
   hard:
     requests:
-      cpu: 250m
-      memory: 256Mib
+      cpu: "250m"
+      memory: "256Mib"
     limits:
-      cpu: 250m
-      memory: 256Mib
+      cpu: "250m"
+      memory: "256Mib"
