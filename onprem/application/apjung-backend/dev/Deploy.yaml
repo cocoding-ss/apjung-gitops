@@ -25,6 +25,13 @@ spec:
           ports:
             - containerPort: 8080
           imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
           envFrom:
             - secretRef:
                 name: apjung-backend-dev.secret-db
