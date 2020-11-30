@@ -36,6 +36,7 @@ pipeline {
         failure {
             slackSend (channel: '#apjung-log', color: '#00FF00', message: """:octagonal_sign: 실패 : ${ghprbSourceBranch} 브랜치 테스트
 파이프라인 : ${env.JOB_NAME} [${env.BUILD_NUMBER}]
-확인 : (${env.BUILD_URL})""")        }
+확인 : (${env.BUILD_URL})""")
+        }
     }
 }
