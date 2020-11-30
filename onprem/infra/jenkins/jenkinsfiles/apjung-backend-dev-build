@@ -24,6 +24,11 @@ pipeline {
         )
     }
     stages {
+        stage('Start') {
+            steps {
+                slackSend (channel: '#apjung-log', color: '#00FF00', message: """개발서버 CI 시작""")
+            }
+        }
         stage('Git checkout') {
             steps {
                 git branch: "develop",
