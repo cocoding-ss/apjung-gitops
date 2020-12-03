@@ -24,6 +24,13 @@ pipeline {
         )
     }
     stages {
+        stage('Start') {
+            steps {
+                slackSend (channel: '#apjung-log', color: '#00FF00', message: """개발서버 CI 시작
+파이프라인 : ${env.JOB_NAME} [${env.BUILD_NUMBER}]
+확인 : (${env.BUILD_URL})""")
+            }
+        }
         stage('Git checkout') {
             steps {
                 git branch: "develop",
@@ -90,5 +97,17 @@ pipeline {
 
             }
         }
-   }
+    }
+    post {
+        success {
+            slackSend (channel: '#apjung-log', color: '#00FF00', message: """:white_check_mark: 성공 : 개발서버 CI
+파이프라인 : ${env.JOB_NAME} [${env.BUILD_NUMBER}]
+확인 : (${env.BUILD_URL})""")
+        }
+        failure {
+            slackSend (channel: '#apjung-log', color: '#00FF00', message: """:octagonal_sign: 실패 : 개발서버 CI
+파이프라인 : ${env.JOB_NAME} [${env.BUILD_NUMBER}]
+확인 : (${env.BUILD_URL})""")
+        }
+    }
 }
