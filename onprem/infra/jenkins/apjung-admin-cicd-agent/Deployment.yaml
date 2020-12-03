@@ -40,7 +40,7 @@ spec:
           envFrom:
             - secretRef:
                 name: jenkins-apjung-admin-cicd-agent.secret
-          volumnMounts:
+          volumeMounts:
             - mountPath: /var/run/docker.sock
               name: docker-socket
       volumes:
