@@ -45,10 +45,10 @@ spec:
             runAsGroup: 1000
             fsGroup: 1000
           command:
-            - chown
-            - -R
-            - 777:777
-            - /var/run/docker.sock
+            - 'chown'
+            - "-R"
+            - '777:777'
+            - '/var/run/docker.sock'
           volumeMounts:
             - mountPath: /var/run/docker.sock
               name: docker-socket
