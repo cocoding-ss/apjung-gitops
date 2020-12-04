@@ -42,15 +42,4 @@ spec:
           envFrom:
             - secretRef:
                 name: jenkins-apjung-admin-cicd-agent.secret
-          command:
-            - 'chmod'
-            - '-R'
-            - '777'
-            - '/var/run/docker.sock'
-          volumeMounts:
-            - mountPath: /var/run/docker.sock
-              name: docker-socket
-      volumes:
-        - name: docker-socket
-          hostPath:
-            path: /var/run/docker.sock
+
