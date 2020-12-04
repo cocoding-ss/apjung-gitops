@@ -15,3 +15,23 @@ spec:
   selector:
     app.kubernetes.io/instance: apjung-backend-dev-pod
   type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: apjung-admin-dev-svc
+  namespace: dev
+  labels:
+    app.kubernetes.io/name: apjung-admin-dev
+    app.kubernetes.io/instance: apjung-admin-dev-svc
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+  selector:
+    app.kubernetes.io/instance: apjung-admin-dev-pod
+  type: ClusterIP
