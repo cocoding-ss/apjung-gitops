@@ -21,7 +21,6 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-
                     withSonarQubeEnv() {
                         withCredentials([string(credentialsId: 'github-api-token', variable: 'GITHUB_TOKEN')]) {
                             sh (
