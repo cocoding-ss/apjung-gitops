@@ -64,7 +64,7 @@ spec:
         - name: dockerhub-secrets
       containers:
         - name: apjung-admin-dev-pod
-          image: labyu/apjung-admin:dev-37
+          image: labyu/apjung-admin:dev-38
           ports:
             - containerPort: 8080
           imagePullPolicy: Always
