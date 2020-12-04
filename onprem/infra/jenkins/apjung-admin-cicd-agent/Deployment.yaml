@@ -17,11 +17,9 @@ spec:
         app.kubernetes.io/name: jenkins-apjung-admin-cicd-agent-agent
         app.kubernetes.io/instance: jenkins-apjung-admin-cicd-agent-pod
     spec:
-      securityContext:
-        fsGroup: 412
       containers:
         - name: jenkins-apjung-admin-cicd-agent-pod
-          image: jenkins/inbound-agent:latest-jdk11
+          image: labyu/testjenkins:test
           ports:
             - containerPort: 8080
             - containerPort: 50000
@@ -42,4 +40,11 @@ spec:
           envFrom:
             - secretRef:
                 name: jenkins-apjung-admin-cicd-agent.secret
+          volumeMounts:
+            - mountPath: /var/run/docker.sock
+              name: docker-socket
+      volumes:
+        - name: docker-socket
+          hostPath:
+            path: /var/run/docker.sock
 
