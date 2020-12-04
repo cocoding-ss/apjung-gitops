@@ -38,3 +38,37 @@ spec:
                 name: apjung-backend-dev.secret-smtp
             - secretRef:
                 name: apjung-backend-aws.secret
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apjung-admin-dev-deploy
+  namespace: dev
+  labels:
+    app.kubernetes.io/name: apjung-admin-dev
+    app.kubernetes.io/instance: apjung-admin-dev-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: apjung-admin-dev-pod
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: apjung-admin-dev
+        app.kubernetes.io/instance: apjung-admin-dev-pod
+    spec:
+      imagePullSecrets:
+        - name: dockerhub-secrets
+      containers:
+        - name: apjung-admin-dev-pod
+          image: labyu/apjung-admin:dev-31
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "400Mi"
+              cpu: "250m"
