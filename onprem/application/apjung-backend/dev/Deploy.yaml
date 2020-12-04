@@ -72,3 +72,6 @@ spec:
             requests:
               memory: "400Mi"
               cpu: "250m"
+          env:
+            - name: APP_ENV
+              value: development
