@@ -21,7 +21,6 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-
                     withSonarQubeEnv() {
                         withCredentials([string(credentialsId: 'github-api-token', variable: 'GITHUB_TOKEN')]) {
                             sh (
@@ -40,12 +39,12 @@ pipeline {
     }
     post {
         success {
-            slackSend (channel: '#apjung-log', color: '#00FF00', message: """:white_check_mark: 성공 : ${ghprbSourceBranch} 브랜치 테스트
+            slackSend (channel: '#apjung-log', color: '#00FF00', message: """:white_check_mark: 성공 : ${ghprbSourceBranch} 브랜치 정적 분석 테스트
 파이프라인 : ${env.JOB_NAME} [${env.BUILD_NUMBER}]
 확인 : (${env.BUILD_URL})""")
         }
         failure {
-            slackSend (channel: '#apjung-log', color: '#00FF00', message: """:octagonal_sign: 실패 : ${ghprbSourceBranch} 브랜치 테스트
+            slackSend (channel: '#apjung-log', color: '#00FF00', message: """:octagonal_sign: 실패 : ${ghprbSourceBranch} 브랜치 정적 분석 테스트
 파이프라인 : ${env.JOB_NAME} [${env.BUILD_NUMBER}]
 확인 : (${env.BUILD_URL})""")
         }
