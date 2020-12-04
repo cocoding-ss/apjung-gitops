@@ -12,6 +12,7 @@ spec:
   tls:
   - hosts:
       - api.apjung.xyz
+      - admin.apjung.xyz
     secretName: tls-secret-dev
   rules:
   - host: api.apjung.xyz
@@ -20,4 +21,11 @@ spec:
       - path: /
         backend:
           serviceName: apjung-backend-dev-svc
+          servicePort: 80
+  - host: admin.apjung.xyz
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: apjung-admin-dev-svc
           servicePort: 80
