@@ -58,6 +58,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'dockerhub-username', variable: 'USERNAME'), string(credentialsId: 'dockerhub-password', variable: 'PASSWORD')]) {
                     sh """#!/bin/bash
                     ./gradlew -Dspring.profiles.active=dev -Pprofile=dev jib \
+                       -Djib.container.jvmFlags='-Dspring.profiles.active=dev' \
                        -Djib.to.image=labyu/apjung-backend:dev-${BUILD_NUMBER} \
                        -Djib.to.auth.username=${USERNAME} \
                        -Djib.to.auth.password='${PASSWORD}' --stacktrace
