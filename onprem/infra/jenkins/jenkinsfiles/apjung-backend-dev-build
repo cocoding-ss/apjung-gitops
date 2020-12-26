@@ -44,9 +44,9 @@ pipeline {
                     withCredentials([string(credentialsId: 'MYSQL_DEV_PASSWORD', variable: 'MYSQL_ROOT_PASSWORD')]) {
                     sh """#!/bin/bash
 
-                    ./gradlew -Pprofile=dev flywayClean
-                    ./gradlew -Pprofile=dev flywayMigrate
-                    ./gradlew -Dfile.encoding=UTF-8 -Pprofile=dev clean build
+                    ./gradlew -Dspring.profiles.active=dev -Pprofile=dev flywayClean
+                    ./gradlew -Dspring.profiles.active=dev -Pprofile=dev flywayMigrate
+                    ./gradlew -Dspring.profiles.active=dev -Dfile.encoding=UTF-8 -Pprofile=dev clean build
                     """
                     }
                 }
