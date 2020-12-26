@@ -43,8 +43,8 @@ pipeline {
                 retry(2) {
                     withCredentials([string(credentialsId: 'MYSQL_DEV_PASSWORD', variable: 'MYSQL_ROOT_PASSWORD')]) {
                     sh '''#!/bin/bash
-                    ./gradlew -Pprofile=prod flywayMigrate
-                    ./gradlew -Dfile.encoding=UTF-8 -Pprofile=prod clean build
+                    ./gradlew -Dspring.profiles.active=prod -Pprofile=prod flywayMigrate
+                    ./gradlew -Dspring.profiles.active=prod -Dfile.encoding=UTF-8 -Pprofile=prod clean build
                     '''
                     }
                 }
@@ -55,7 +55,7 @@ pipeline {
                 retry(3) {
                     withCredentials([string(credentialsId: 'dockerhub-username', variable: 'USERNAME'), string(credentialsId: 'dockerhub-password', variable: 'PASSWORD')]) {
                     sh """#!/bin/bash
-                    ./gradlew -Dfile.encoding=UTF-8 -Pprofile=prod jib \
+                    ./gradlew -Dfile.encoding=UTF-8 -Dspring.profiles.active=prod -Pprofile=prod jib \
                        -Djib.to.image=labyu/apjung-backend:prod-${BUILD_NUMBER} \
                        -Djib.to.auth.username=${USERNAME} \
                        -Djib.to.auth.password='${PASSWORD}' --stacktrace
