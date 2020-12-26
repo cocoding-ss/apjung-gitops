@@ -23,7 +23,7 @@ pipeline {
                 script {
                     sh (
                             script: '''#!/bin/bash
-                                ./gradlew -Dfile.encoding=UTF-8 clean build -Pprofile=test
+                                ./gradlew -Dfile.encoding=UTF-8 clean build -Pprofile=test -Dspring.profiles.active=test
                             ''',
                             returnStdout: true
                     )
